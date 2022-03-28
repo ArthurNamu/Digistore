@@ -10,7 +10,22 @@ A simple e-commerce site showcasing user signup and login, product listing, Add 
 -  Store user information in a database as well as the products purchased for each user
 against an order number.
 # Roadmap
--  This is in Review.
+1. Create 3 projects 
+   -  Data library
+   -  WebAPI
+   -  User Interface
+2. Setup Data Access register & login for users.
+   -  Create a database
+      -  Users: UserID, Username, password
+   -  Database user services to be injected into the webApi
+   -  Create User controller and add register & login endpoints
+   -  Setup jwt authentication.
+3. Configure swagger documentation in web api for tests
+4. Setup Login and Register in user interface
+   -  Create http factory
+   -  Create  a login service to call the web api.
+   -  Create page layouts for login and register
+   -  Inject login service and call the API.
 # Dependencies
 To be communicated in version 2.0.0.0
 # Help
