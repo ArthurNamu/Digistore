@@ -1,5 +1,7 @@
+using Blazored.SessionStorage;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
@@ -29,7 +31,10 @@ namespace StoreUI
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-        }
+            services.AddBlazoredSessionStorage();
+            services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+
+        )}
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -49,7 +54,8 @@ namespace StoreUI
             app.UseStaticFiles();
 
             app.UseRouting();
-
+            app.UseAuthorization();
+            app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapBlazorHub();

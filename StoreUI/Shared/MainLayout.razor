@@ -1,11 +1,21 @@
 ﻿@inherits LayoutComponentBase
-
+@inject AuthenticationStateProvider _authenticationStateProvider
+@inject NavigationManager _navigationManager
+@using StoreUI.Data
 <div class="sidebar">
     <NavMenu />
 </div>
 
 <div class="main">
     <div class="top-row px-4">
+        <AuthorizeView>
+            <Authorized>
+                <a href="/" @onclick="(()=>Logout())">Logout</a>
+            </Authorized>
+            <NotAuthorized>
+                <a href="/">Login</a>
+            </NotAuthorized>
+        </AuthorizeView>
         <a href="https://docs.microsoft.com/aspnet/" target="_blank">About</a>
     </div>
 
@@ -13,3 +23,10 @@
         @Body
     </div>
 </div>
+@code{
+    private void Logout()
+    {
+        ((CustomAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsLoggedOut();
+        _navigationManager.NavigateTo("");
+    }
+}

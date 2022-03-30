@@ -17,7 +17,7 @@ namespace DataLibrary.Data
         }
         public async Task<bool> UserExistsAsync(string UserName)
         {
-            return await _dataAccess.GetSingleValueAsync<bool, dynamic>($"sp_UserExists",
+            return await _dataAccess.ExecuteFunctionAsync<bool, dynamic>("SELECT [dbo].[fn_UserNameExists] (@UserName)",
                                                                                   new
                                                                                   {
                                                                                       @UserName,

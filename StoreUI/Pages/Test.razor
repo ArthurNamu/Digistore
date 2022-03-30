@@ -1,0 +1,60 @@
+﻿@page "/test"
+
+<center>
+    <div class="col-8 card border-0">
+        <div class="col-12 row">
+            <p>&nbsp;</p>
+        </div>
+        <div class="col-12 row">
+
+            <div class="col-6" style="border-right:groove">
+                <br /><br /><br />
+                @* <img src="/images/PharmAccess.png" width="400" height="150" />*@
+            </div>
+            <div class="col-6">
+                <div>
+                    <br /><br /><br />
+                </div>
+                <div>
+                    <h3 style="font-weight:bold; color:purple">Digistore Login</h3>
+                </div>
+                <div>
+                    <br />
+                </div>
+                <!--<EditForm Model="@user" OnValidSubmit="HandleOnclick">
+                    <DataAnnotationsValidator />
+                    <div class="col-12 row">
+                        <InputText @bind-Value="user.UserName" placeholder="UserName" class="form-control col-12" />
+                        <ValidationMessage For="@(() => user.UserName)" />
+                    </div>
+                    <br />
+                    <div class="col-12 row">
+                        <InputText @bind-Value="user.Password" placeholder="Password" class="form-control" type="password" />
+                        <ValidationMessage For="@(() => user.Password)" />
+                    </div>
+                    <br />  <br />
+                    <div class="col-12 row">
+                        <span class="col-12"></span>-->
+                @*<input type="submit" class="form-control col-6 btn btn-primary" value="Login" />*@
+                <!--<button class="btn btn-primary form-control col-6 " type="submit">Login</button>-->
+                @*<a href="/signup" class="col-3">Sign up</a>*@
+                <!--</div>
+                    <br />
+                    <div class="col-12 row">
+                        @loginMessage
+                    </div>
+                </EditForm>-->
+                <br />
+            </div>
+        </div>
+    </div>
+</center>
+
+@code {
+    private int currentCount = 0;
+
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+}

@@ -1,0 +1,47 @@
+﻿@if(IsVisible){
+@if(Results){
+<div id="ServerValidation" class="col-10 alert alert-info">
+        <div class="col11" style="text-align:left">
+            <span>@ChildContent has been saved</span>
+        </div>
+        <div class="col11" style="text-align:right">
+            <a style="text-underline-position:below; cursor:pointer" @onclick="(()=>CloseAlert())">x</a>
+        </div>
+    </div>
+    }
+<div id="ServerValidation" class="col-10 alert alert-danger">
+    <div class="col11" style="text-align:left">
+        <span style="font-weight:bold; font-style:italic">oops Something has gone wrong please contact systems admin</span>
+    </div>
+    <div class="col11" style="text-align:right">
+        <a style="text-underline-position:below; cursor:pointer" @onclick="(()=>CloseAlert())">x</a>
+    </div>
+
+</div>
+    }
+
+
+    @code {
+        [Parameter]
+        public bool IsVisible { get; set; }
+        [Parameter]
+        public RenderFragment ChildContent { get; set; }
+        [Parameter]
+        public bool Results { get; set; }
+        private void CloseAlert()
+        {
+            IsVisible = false;
+        }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            CheckConnections();
+            await base.OnParametersSetAsync();
+        }
+        private void CheckConnections()
+        {
+            Results = false; //Create a connction check
+            if (!Results)
+                IsVisible = true;
+        }
+    }

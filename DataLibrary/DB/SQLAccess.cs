@@ -79,8 +79,6 @@ namespace DataLibrary.DB
             {
                 //try
                 //{
-                if (connection.State == ConnectionState.Closed)
-                    
                 await connection.ExecuteAsync(storedProcedure, parameters,
                      commandType: CommandType.StoredProcedure);
                 //}

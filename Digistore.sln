@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31613.86
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{E6377DDF-6384-428B-A50C-72423804058B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DataLibrary", "DataLibrary\DataLibrary.csproj", "{E6377DDF-6384-428B-A50C-72423804058B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreAPI", "StoreAPI\StoreAPI.csproj", "{664305C7-6731-4BC9-A521-61F1A106E9B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreAPI", "StoreAPI\StoreAPI.csproj", "{664305C7-6731-4BC9-A521-61F1A106E9B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StoreUI", "StoreUI\StoreUI.csproj", "{CB4491DA-40EA-4559-B2BE-4D1470FEB59B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreUI", "StoreUI\StoreUI.csproj", "{CB4491DA-40EA-4559-B2BE-4D1470FEB59B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
