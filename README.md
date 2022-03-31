@@ -26,12 +26,26 @@ against an order number.
    -  Create  a login service to call the web api.
    -  Create page layouts for login and register
    -  Inject login service and call the API.
+# Trade-Offs
+   -  *Data access* 
+      - Chose a custom data access library instead of Entity Framework
+      -  This will allow me to reuse the class in other projects 
+      -  Database swap should it be required. Only implement IDataAccess with the new db.
+   -  *Authentication* 
+      -  Chose custom authentication a instead of out-of-the-box   
+      -  Much as it would take more time, I needed to be in control
+      -  I needed it as a customizable template for future projects
+      -  It was a great leaning process.
 # Dependencies
 To be communicated in version 2.0.0.0
 # Help
 Help documentation will be published after the first release build (v. 1.0.0.0) is released.
 # What if I had more time?
--  Under consideration
+-  Store API Endpoints in configuration file
+-  Stote jwt in a more secure location and not localstorage
+-  Implement refresh tokens
+-  Improve password encryption function.
+-  Refactor UserAuthentication service in StoreUI for better code reuse
 # Contributing
  Just chat on mail.
 # Lisence
