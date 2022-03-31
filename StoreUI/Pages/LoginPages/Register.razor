@@ -1,40 +1,44 @@
 ﻿@page  "/register"
 @using StoreUI.Domain
+@using StoreUI.Data
+@inject NavigationManager _navigationManager
+@inject IUserAuthenticationService _userAuthService
+@inject AuthenticationStateProvider _authenticationStateProvider
 
 <EditForm Model="@user" OnValidSubmit="@RegisterUser">
 
-            <div>
-                <br /><br /><br /><br /><br />
-            </div>
-            <div>
-                <h3 style="font-weight:bold; color:purple">Book Stores Register</h3>
-            </div>
-            <div>
-                <br />
-            </div>
-            <div class="col-12 row">
-                <input class="form-control col-12" @bind="user.UserName" placeholder="email address" />
-            </div>
-            <br />
-            <div class="col-12 row">
-                <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
-            </div>
-            <br />
-            <div class="col-12 row">
-                <input type="password" class="form-control col-12" @bind="user.ConfirmPassword" placeholder="confirm password" />
-            </div>
-            <br />
-            <div class="col-12 row">
-                <span class="col-12"></span>
-                <input type="submit" class="form-control col-6 btn btn-primary" value="Register" />
-                <a href="/" class="col-6">Already an user?</a>
-            </div>
-            <br />
-            <div class="col-12 row" style="text-align:left; font-weight:bold">
-                <span class="col-12">@LoginMesssage</span>
-            </div>
+    <div>
+        <br /><br /><br /><br /><br />
+    </div>
+    <div>
+        <h3 style="font-weight:bold; color:purple">Book Stores Register</h3>
+    </div>
+    <div>
+        <br />
+    </div>
+    <div class="col-12 row">
+        <input class="form-control col-12" @bind="user.UserName" placeholder="email address" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="user.Password" placeholder="password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <input type="password" class="form-control col-12" @bind="user.ConfirmPassword" placeholder="confirm password" />
+    </div>
+    <br />
+    <div class="col-12 row">
+        <span class="col-12"></span>
+        <input type="submit" class="form-control col-6 btn btn-primary" value="Register" />
+        <a href="/" class="col-6">Already an user?</a>
+    </div>
+    <br />
+    <div class="col-12 row" style="text-align:left; font-weight:bold">
+        <span class="col-12">@LoginMesssage</span>
+    </div>
 
-       
+
 </EditForm>
 
 @code {
@@ -49,6 +53,19 @@
 
     private async Task<bool> RegisterUser()
     {
-        return true;
+        //assume that user is valid
+        var returnedUser = await _userAuthService.RegisterUserAsync(user);
+
+        if (returnedUser.UserName != null)
+        {
+            await ((CustomAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(returnedUser);
+            _navigationManager.NavigateTo("/index");
+        }
+        else
+        {
+            LoginMesssage = "Invalid username or password";
+        }
+
+        return await Task.FromResult(true);
     }
 }

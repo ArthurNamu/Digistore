@@ -1,5 +1,6 @@
-﻿using Blazored.SessionStorage;
+﻿using Blazored.LocalStorage;
 using Microsoft.AspNetCore.Components.Authorization;
+using StoreUI.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,19 +11,19 @@ namespace StoreUI.Data
 {
     public class CustomAuthenticationStateProvider : AuthenticationStateProvider
     {
-        private readonly ISessionStorageService _sessionStorage;
-
-        public CustomAuthenticationStateProvider(ISessionStorageService sessionStorage)
+        private readonly ILocalStorageService _localStorageService;
+        public CustomAuthenticationStateProvider(ILocalStorageService localStorageService)
         {
-            _sessionStorage = sessionStorage;
+            _localStorageService = localStorageService;
         }
         public override async Task<AuthenticationState> GetAuthenticationStateAsync()
         {
-            var userName = await _sessionStorage.GetItemAsync<string>("userName");
-            var accessToken = ""; //= await _localStorageService.GetItemAsync<string>("accessToken");
+            var accessToken = await  _localStorageService.GetItemAsync<string>("accessToken");
+
             ClaimsIdentity identity;
-            if (userName != null)
+            if (string.IsNullOrEmpty(accessToken) == false)
             {
+                var userName = await _localStorageService.GetItemAsync<string>("userName");
                 identity = new ClaimsIdentity(new[]
                 {
                 new Claim(ClaimTypes.Name, userName),
@@ -32,17 +33,18 @@ namespace StoreUI.Data
             {
                 identity = new ClaimsIdentity();
             }
-                    
-             var user = new ClaimsPrincipal(identity);
+            var user = new ClaimsPrincipal(identity);
 
             return await Task.FromResult(new AuthenticationState(user));
         }
 
-        public void MarkUserAsAuthenticated(string userName)
+        public async Task MarkUserAsAuthenticated(UserAuthResponse authResponse)
         {
+            await _localStorageService.SetItemAsync("userName", authResponse.UserName);
+            await _localStorageService.SetItemAsync("accessToken", authResponse.Token);
             ClaimsIdentity identity = new ClaimsIdentity(new[]
-{
-                new Claim(ClaimTypes.Name, userName),
+            {
+                new Claim(ClaimTypes.Name, authResponse.UserName),
             }, "apiauth_type");
             var user = new ClaimsPrincipal(identity);
 
@@ -50,7 +52,8 @@ namespace StoreUI.Data
         }
         public void MarkUserAsLoggedOut()
         {
-            _sessionStorage.RemoveItemAsync("userName");
+            _localStorageService.RemoveItemAsync("userName");
+            _localStorageService.RemoveItemAsync("accessToken");
             ClaimsIdentity identity = new ClaimsIdentity();
             var user = new ClaimsPrincipal(identity);
 

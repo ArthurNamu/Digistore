@@ -6,17 +6,13 @@ using System.Threading.Tasks;
 
 namespace StoreUI.Contracts
 {
-    public class ApiEndPoints
+    //TODO:
+    /*Set and Fetch from configuration file*/
+    public static class ApiEndPoints
     {
-        private readonly IConfiguration _config;
         public const string Version = "v1";
         public const string Root = "api";
-        public const string Base = "/" + Root + "/" + Version;
-        public ApiEndPoints(IConfiguration config)
-        {
-            _config = config;
-        }
-
+        public const string Base = @"http://localhost:5000/" + Root + "/" + Version;
         public static class Identity
         {
             public const string GetAll = Base + "/users/";

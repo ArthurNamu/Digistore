@@ -1,32 +1,43 @@
 ﻿@page "/counter"
 @inject IJSRuntime _jsRuntime
+@inject ILocalStorageService _localStorageService
 <h1>Counter</h1>
+<AuthorizeView>
+    <Authorized>
+        @context.User.Identity.Name;
+    </Authorized>
+</AuthorizeView>
+<p>Current count: @RecordName</p>
 
-<p>Current count: @currentCount</p>
-<CustomAlert IsVisible="IsVisible" Results="Results">
-    <span>Mr </span>@RecordName
-</CustomAlert>
 
-<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
-<button class="btn btn-primary" @onclick="InvokeJsAsync">Saved</button>
 
-@code {
-    private int currentCount = 0;
-    public bool IsVisible { get; set; }
-    public string RecordName { get; set; }
-    public bool Results { get; set; }
-    private void IncrementCount()
-    {
-        currentCount++;
+    <CustomAlert IsVisible="IsVisible" Results="Results">
+        <span>Mr </span>@RecordName
+    </CustomAlert>
+
+    <button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+    <button class="btn btn-primary" @onclick="InvokeJsAsync">Saved</button>
+
+    @code {
+        private int currentCount = 0;
+        public bool IsVisible { get; set; }
+        public string RecordName { get; set; }
+        public bool Results { get; set; }
+        private async Task IncrementCount()
+        {
+            currentCount++;
+            RecordName = await _localStorageService.GetItemAsync<string>("accessToken");
+        }
+
+        private async Task InvokeJsAsync()
+        {
+
+            IsVisible = true;
+            Results = false;
+            string firstName = "Kenth";
+            string lastName = "Bien";
+            RecordName = firstName + " " + lastName;
+            await Task.FromResult(true);
+            // await _jsRuntime.InvokeVoidAsync("SavedSuccesfully", firstName, lastName);
+        }
     }
-
-    private async Task InvokeJsAsync()
-    {
-        IsVisible = true;
-        Results = false;
-        string firstName = "Kenth";
-        string lastName = "Bien";
-        RecordName = firstName + " " + lastName;
-        // await _jsRuntime.InvokeVoidAsync("SavedSuccesfully", firstName, lastName);
-    }
-}

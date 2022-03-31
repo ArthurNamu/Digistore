@@ -3,7 +3,7 @@
     @using StoreUI.Data
     @inject AuthenticationStateProvider _authenticationStateProvider
     @inject NavigationManager _navigationManager
-    @inject Blazored.SessionStorage.ISessionStorageService sessionStorage
+@inject IUserAuthenticationService _authService
 @inject IHttpClientFactory _httpClient
 
     <EditForm Model="@user" OnValidSubmit="@ValidateUser">
@@ -41,10 +41,20 @@
 
         private async Task<bool> ValidateUser()
         {
-            ((CustomAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(user.UserName);
-            _navigationManager.NavigateTo("/index");
-            await sessionStorage.SetItemAsync("userName", user.UserName);
-            return true;
+
+            var userAuthResult = await _authService.LoginAsync(user);
+
+            if (userAuthResult.IsSuccess)
+            {
+                await ((CustomAuthenticationStateProvider)_authenticationStateProvider).MarkUserAsAuthenticated(userAuthResult);
+                _navigationManager.NavigateTo("/index");
+                return true;
+            }
+            else
+            {
+                LoginMesssage = "Invalid username or password";
+            }
+            return await Task.FromResult(true);
         }
 
     }

@@ -1,17 +1,17 @@
-﻿@page "/index"
+﻿@page "/shop"
 @using System.Security.Claims
 
 @if (IsUserAuthenticated)
 {
-    <h3>Welcome <b>@user.Identity.Name</b></h3>
+    <h3>Welcome to the shop <b>@user.Identity.Name</b></h3>
     <br />
-
 }
 else
 {
-    <h3><b>User is logged out</b></h3>
+    <h3>Please login to view the catalogue <b><a href="/">Login Now</a></b></h3>
+    <br />
 }
-@code{
+@code {
     [CascadingParameter]
     private Task<AuthenticationState> authenticationStateTask { get; set; }
     ClaimsPrincipal user;
@@ -25,4 +25,3 @@ else
             IsUserAuthenticated = true;
     }
 }
-
