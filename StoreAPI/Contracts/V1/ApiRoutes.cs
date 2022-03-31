@@ -16,5 +16,11 @@ namespace StoreAPI.Contracts.V1
             public const string Login = Base + "/user/login";
             public const string Register = Base + "/user/register";
          }
+        public static class Product
+        {
+            public const string GetAll = Base + "/products/";
+            public const string Get = Base + "/product/{ProductID}";
+            public const string Create = Base + "/Product";
+        }
     }
 }
