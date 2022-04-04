@@ -48,7 +48,7 @@ namespace StoreAPI.Controllers
         [HttpPost(ApiRoutes.Identity.Login)]
         public async Task<IActionResult> LoginAsync([FromBody] LoginRequest request)
         {
-            if(ModelState.IsValid == false)
+            if (ModelState.IsValid == false)
             {
                 return BadRequest(new AuthFailedResponse
                 {

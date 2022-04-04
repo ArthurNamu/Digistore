@@ -12,12 +12,18 @@ namespace StoreUI.Contracts
     {
         public const string Version = "v1";
         public const string Root = "api";
-        public const string Base = @"http://localhost:5000/" + Root + "/" + Version;
+        public const string Base = @"https://localhost:5001/" + Root + "/" + Version;
         public static class Identity
         {
             public const string GetAll = Base + "/users/";
             public const string Login = Base + "/user/login";
             public const string Register = Base + "/user/register";
+        }
+        public static class Product
+        {
+            public const string GetAll = Base + "/products/";
+            public const string Get = Base + "/product/{ProductID}";
+            public const string Create = Base + "/Product";
         }
     }
 }

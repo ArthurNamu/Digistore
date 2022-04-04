@@ -1,5 +1,6 @@
 ﻿using DataLibrary.Data;
 using DataLibrary.DB;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreAPI.Contracts.V1;
@@ -14,6 +15,7 @@ namespace StoreAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+  //  [Authorize]
     public class ProductController : ControllerBase
     {
         private readonly IProductService _productService;
@@ -49,6 +51,7 @@ namespace StoreAPI.Controllers
         [HttpGet(ApiRoutes.Product.GetAll)]
         public async Task<IActionResult> GetAll()
         {
+            Task.Delay(5000);
             return Ok(await _productService.GetAllProductsAsync());
         }
     }

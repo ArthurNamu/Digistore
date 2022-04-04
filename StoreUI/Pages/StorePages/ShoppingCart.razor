@@ -1,0 +1,100 @@
+﻿@page "/cart"
+@using System.Security.Claims
+@using StoreUI.Domain;
+@using StoreUI.Data
+@using StoreUI.Contracts
+@inject IAppProductService _productService
+@inject IDigiShopService<ProductModel> _productService
+@inject ILocalStorageService _localStorage
+
+    <h2>Shopping Cart</h2>
+ @if (IsUserAuthenticated) { 
+<table class="table-condensed table-striped" style="width: 100%">
+    @if (cartItemtList != null)
+    {
+        @foreach (var item in cartItemtList)
+        {
+            <tr>
+                <td>
+                    <img src="@item.ImagePath" height="50px" width="50px" class="img-rounded" />
+                </td>
+                <td>
+                    @item.ProductName
+                </td>
+                <td style="text-align: right">
+                    @item.Quantity;
+                </td>
+                <td style="text-align: right">
+                    @item.ProductPrice.ToString("#,##0.00")
+                </td>
+                <td style="text-align: right">
+                    @item.ItemTotal.ToString("#,##0.00")
+                </td>
+            </tr>
+        }
+    }
+
+
+    <tr style="border-top: 2px solid maroon">
+        <td colspan="4" style="text-align: right">
+            <h3>Total Amount</h3>
+        </td>
+        <td style="text-align: right">
+            <h3>@TotalAmount.ToString("#,##0.00")</h3>
+        </td>
+    </tr>
+
+    <tr style="text-align: right">
+        <td colspan="5">
+            <input type="submit" value="Save & Checkout" name="Save" class="btn btn-primary" id="SaveOrder" @onclick="SaveOrder" />
+            <input type="button" value="Clear Cart" name="clear" class="btn btn-outline-danger" id="ClearCart" @onclick="EmptyCart" />
+        </td>
+
+    </tr>
+
+    <tr style="text-align: center">
+        <td colspan="5">
+            <a href="/shop"><b>Back Shopping</b></a>
+        </td>
+    </tr>
+</table>
+}
+    
+
+
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> authenticationStateTask { get; set; }
+    ClaimsPrincipal user;
+    private List<CartItem> cartItemtList = new List<CartItem>();
+    private decimal TotalAmount = 0;
+
+    bool IsUserAuthenticated;
+    protected override async Task OnInitializedAsync()
+    {
+        user = (await authenticationStateTask).User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            IsUserAuthenticated = true;
+            if(await _localStorage.ContainKeyAsync("cart"))
+            {
+                cartItemtList = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+                TotalAmount = cartItemtList.Sum(c => c.ItemTotal);
+            }
+        }
+    }
+
+    private async Task SaveOrder()
+    {
+
+    }
+    private async Task EmptyCart()
+    {
+        cartItemtList.Clear();
+        await _localStorage.RemoveItemAsync("cart");
+        await _localStorage.RemoveItemAsync("cartCount");
+        
+    }
+}

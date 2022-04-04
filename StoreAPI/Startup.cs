@@ -37,6 +37,7 @@ namespace StoreAPI
             services.AddSingleton<IDataAccess, SQLAccess>();
              services.AddScoped<IAuthenticationService, AuthenticationService>();
              services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IProductService, ProductService>();
 
             var jwtSettings = new JwtSettings();
             Configuration.Bind(nameof(jwtSettings), jwtSettings);

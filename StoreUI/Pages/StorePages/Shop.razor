@@ -1,0 +1,119 @@
+﻿@page "/shop"
+@using System.Security.Claims
+@using StoreUI.Domain;
+@using StoreUI.Data
+@using StoreUI.Contracts
+@inject IAppProductService _productService
+@inject IDigiShopService<ProductModel> _productService
+@inject ILocalStorageService _localStorage
+@inject NavigationManager _navigationManager
+
+@if (IsUserAuthenticated)
+{
+<input type="button" class="oi-cart" value="cart (@totalCartItems)" @onclick="OpenShoppingCart"/>
+    <br />
+    <div class="card-deck">
+        @foreach (var product in productList)
+        {
+        <div class="card m-3" style="min-width: 25rem; max-width: 30.5%;">
+            <div class="card-header">
+                <h6>@product.ProductName </h6>
+            </div>
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <td><img src="@product.ImagePath" width="150px" height="150px" /> </td>
+                        <td style="padding: 4px">  <h6>@product.ProductDescription </h6></td>
+                    </tr>
+                    <tr>
+                        <td><b>@product.ProductPrice.ToString(" KSHs #,##0.00")</b> </td>
+                        <td style="text-align:right"><h6><input type="button" name="AddToCart" class="btn btn-primary oi-cart" value="Add to Cart" @onclick="(()=>AddToCart(product.ProductID))" /> </h6> </td>
+                    </tr>
+                </table>
+                
+                
+                @*<div class="col-md-4" >
+                        <img src="@product.ImagePath" width="150px" height="150px" />
+                    </div>
+                <div class="col-md-8" style="font-size: 18px; padding: 2px">
+                    <b>@product.ProductPrice.ToString(" KSHs #,##0.00")</b>
+                </div>
+                <div style="text-align: right; margin-bottom: 10px; padding: 2px">
+                    <input type="button" name="AddToCart" class="btn btn-primary oi-cart" value="Add to Cart" onclick="AddToCart()" />
+                </div>*@
+            </div>
+        </div>
+        }
+    </div>
+    }
+    else
+    {
+        <h3>Please login to view the catalogue <b><a href="/">Login Now</a></b></h3>
+        <br />
+    }
+
+@code {
+    [CascadingParameter]
+    public Task<AuthenticationState> authenticationStateTask { get; set; }
+    ClaimsPrincipal user;
+    private List<ProductModel> productList = new List<ProductModel>();
+    private ProductModel product = null;
+    private CartItem cartItem = new CartItem();
+    private string totalCartItems;
+
+    bool IsUserAuthenticated;
+    protected override async Task OnInitializedAsync()
+    {
+        user = (await authenticationStateTask).User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            IsUserAuthenticated = true;
+            productList = await _productService.GetAllAsync(ApiEndPoints.Product.GetAll);
+            if (await _localStorage.ContainKeyAsync("cartCount"))
+            {
+                totalCartItems = await _localStorage.GetItemAsStringAsync("cartCount");
+            }
+        }
+    }
+    private async Task AddToCart(string ProductID)
+    {
+        product = productList.Where(x => x.ProductID == ProductID).FirstOrDefault();
+        var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
+        cartItem = new CartItem
+        {
+            CategoryID = product.CategoryID,
+            ImagePath = product.ImagePath,
+            Quantity = 1,
+            ProductDescription = product.ProductDescription,
+            ProductID = product.ProductID,
+            ProductName = product.ProductName,
+            ProductPrice = product.ProductPrice,
+            ItemTotal = product.ProductPrice,
+            UserName = user.Identity.Name
+        };
+        if (cart is null)
+        {
+            cart = new List<CartItem>();
+            cart.Add(cartItem);
+        }
+        else
+        {
+            var cart_Item = cart.Where(c => c.ProductID == ProductID && c.UserName == user.Identity.Name).FirstOrDefault();
+            if (!(cart_Item is null))
+            {
+                cart_Item.Quantity = cart_Item.Quantity + 1;
+                cart_Item.ItemTotal = cart_Item.Quantity * cart_Item.ProductPrice;
+            }else
+                cart.Add(cartItem);
+        }
+        await _localStorage.RemoveItemAsync("cart");
+        await _localStorage.SetItemAsync("cart", cart);
+        await _localStorage.SetItemAsync("cartCount", cart.Count());
+        totalCartItems = await _localStorage.GetItemAsStringAsync("cartCount");
+    }
+    private void OpenShoppingCart()
+    {
+        _navigationManager.NavigateTo("/cart");
+    }
+}

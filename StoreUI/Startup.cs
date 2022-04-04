@@ -8,6 +8,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StoreUI.Data;
+using StoreUI.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,7 +32,10 @@ namespace StoreUI
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            services.AddScoped<Cart>();
             services.AddHttpClient<IUserAuthenticationService, UserAuthenticationService>();
+            services.AddHttpClient<IAppProductService, AppProductService>();
+            services.AddHttpClient<IDigiShopService<ProductModel>, DigiShopService<ProductModel>>();
             services.AddBlazoredLocalStorage();
 
         }

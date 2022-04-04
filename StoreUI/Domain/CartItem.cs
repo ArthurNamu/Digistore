@@ -5,11 +5,10 @@ using System.Threading.Tasks;
 
 namespace StoreUI.Domain
 {
-    public class UserModel
+    public class CartItem : ProductModel
     {
-        public int UserID { get; set; }
+        public int Quantity { get; set; }
+        public decimal ItemTotal { get; set; }
         public string UserName { get; set; }
-        public string Password { get; set; }
-        public string ConfirmPassword { get; set; }
     }
 }
