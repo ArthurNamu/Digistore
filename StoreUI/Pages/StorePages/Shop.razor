@@ -10,47 +10,51 @@
 
 @if (IsUserAuthenticated)
 {
-<input type="button" class="oi-cart" value="cart (@totalCartItems)" @onclick="OpenShoppingCart"/>
+    <input type="button" class="oi-cart" value="cart (@totalCartItems)" @onclick="OpenShoppingCart" />
     <br />
-    <div class="card-deck">
-        @foreach (var product in productList)
-        {
-        <div class="card m-3" style="min-width: 25rem; max-width: 30.5%;">
-            <div class="card-header">
-                <h6>@product.ProductName </h6>
-            </div>
-            <div class="card-body">
-                <table>
-                    <tr>
-                        <td><img src="@product.ImagePath" width="150px" height="150px" /> </td>
-                        <td style="padding: 4px">  <h6>@product.ProductDescription </h6></td>
-                    </tr>
-                    <tr>
-                        <td><b>@product.ProductPrice.ToString(" KSHs #,##0.00")</b> </td>
-                        <td style="text-align:right"><h6><input type="button" name="AddToCart" class="btn btn-primary oi-cart" value="Add to Cart" @onclick="(()=>AddToCart(product.ProductID))" /> </h6> </td>
-                    </tr>
-                </table>
-                
-                
-                @*<div class="col-md-4" >
-                        <img src="@product.ImagePath" width="150px" height="150px" />
-                    </div>
-                <div class="col-md-8" style="font-size: 18px; padding: 2px">
-                    <b>@product.ProductPrice.ToString(" KSHs #,##0.00")</b>
-                </div>
-                <div style="text-align: right; margin-bottom: 10px; padding: 2px">
-                    <input type="button" name="AddToCart" class="btn btn-primary oi-cart" value="Add to Cart" onclick="AddToCart()" />
-                </div>*@
-            </div>
-        </div>
-        }
-    </div>
-    }
-    else
+    if (productList != null)
     {
-        <h3>Please login to view the catalogue <b><a href="/">Login Now</a></b></h3>
-        <br />
+        <div class="card-deck">
+            @foreach (var product in productList)
+            {
+                <div class="card m-3" style="min-width: 25rem; max-width: 30.5%;">
+                    <div class="card-header">
+                        <h6>@product.ProductName </h6>
+                    </div>
+                    <div class="card-body">
+                        <table>
+                            <tr>
+                                <td><img src="@product.ImagePath" width="150px" height="150px" /> </td>
+                                <td style="padding: 4px">  <h6>@product.ProductDescription </h6></td>
+                            </tr>
+                            <tr>
+                                <td><b>@product.ProductPrice.ToString(" KSHs #,##0.00")</b> </td>
+                                <td style="text-align:right"><h6><input type="button" name="AddToCart" class="btn btn-primary oi-cart" value="Add to Cart" @onclick="(()=>AddToCart(product.ProductID))" /> </h6> </td>
+                            </tr>
+                        </table>
+
+
+                        @*<div class="col-md-4" >
+                                    <img src="@product.ImagePath" width="150px" height="150px" />
+                                </div>
+                            <div class="col-md-8" style="font-size: 18px; padding: 2px">
+                                <b>@product.ProductPrice.ToString(" KSHs #,##0.00")</b>
+                            </div>
+                            <div style="text-align: right; margin-bottom: 10px; padding: 2px">
+                                <input type="button" name="AddToCart" class="btn btn-primary oi-cart" value="Add to Cart" onclick="AddToCart()" />
+                            </div>*@
+                    </div>
+                </div>
+            }
+        </div>
+
     }
+}
+else
+{
+    <h3>Please login to view the catalogue <b><a href="/">Login Now</a></b></h3>
+    <br />
+}
 
 @code {
     [CascadingParameter]
@@ -104,7 +108,8 @@
             {
                 cart_Item.Quantity = cart_Item.Quantity + 1;
                 cart_Item.ItemTotal = cart_Item.Quantity * cart_Item.ProductPrice;
-            }else
+            }
+            else
                 cart.Add(cartItem);
         }
         await _localStorage.RemoveItemAsync("cart");

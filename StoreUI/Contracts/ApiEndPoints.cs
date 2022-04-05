@@ -10,20 +10,23 @@ namespace StoreUI.Contracts
     /*Set and Fetch from configuration file*/
     public static class ApiEndPoints
     {
-        public const string Version = "v1";
-        public const string Root = "api";
-        public const string Base = @"https://localhost:5001/" + Root + "/" + Version;
-        public static class Identity
+             public static class Identity
         {
-            public const string GetAll = Base + "/users/";
-            public const string Login = Base + "/user/login";
-            public const string Register = Base + "/user/register";
+            public const string GetAll =  "user/";
+            public const string Login = "user/login";
+            public const string Register = "user/register";
         }
         public static class Product
         {
-            public const string GetAll = Base + "/products/";
-            public const string Get = Base + "/product/{ProductID}";
-            public const string Create = Base + "/Product";
+            public const string GetAll = "product";
+            public const string Get =  "product/{ProductID}";
+            public const string Create =  "Product";
+        }
+        public static class Order
+        {
+            public const string GetAll = "order/";
+            public const string Get = "order/{orderID}";
+            public const string Create =  "order/";
         }
     }
 }

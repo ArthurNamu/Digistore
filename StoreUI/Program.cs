@@ -23,6 +23,8 @@ namespace StoreUI
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseStartup<Startup>();
-                });
+                })
+            ;
+        
     }
 }

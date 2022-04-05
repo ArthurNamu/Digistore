@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StoreUI.Data;
 using StoreUI.Domain;
+using StoreUI.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,12 +33,15 @@ namespace StoreUI
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddScoped<AuthenticationStateProvider, CustomAuthenticationStateProvider>();
+            var appSettingSection = Configuration.GetSection("EmailConfigs");
+            services.Configure<EmailConfigs>(appSettingSection);
+            var address = Configuration.GetSection("EndPointsConfig");
+            services.Configure<EndPointsConfig>(address);
             services.AddScoped<Cart>();
             services.AddHttpClient<IUserAuthenticationService, UserAuthenticationService>();
             services.AddHttpClient<IAppProductService, AppProductService>();
             services.AddHttpClient<IDigiShopService<ProductModel>, DigiShopService<ProductModel>>();
             services.AddBlazoredLocalStorage();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

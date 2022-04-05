@@ -38,6 +38,7 @@ namespace StoreAPI
              services.AddScoped<IAuthenticationService, AuthenticationService>();
              services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IProductService, ProductService>();
+            services.AddScoped<IOrderService, OrderService>();
 
             var jwtSettings = new JwtSettings();
             Configuration.Bind(nameof(jwtSettings), jwtSettings);
@@ -65,7 +66,7 @@ namespace StoreAPI
             ;
             services.AddSwaggerGen(x =>
             {
-                x.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo { Title = "Digistore API", Version = "v1" });
+                x.SwaggerDoc("v1", new OpenApiInfo { Title = "Digistore API", Version = "v1" });
                 x.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
                 {
                     Description = @"JWT Authorization header using Bearer scheme  \r\n\r\n

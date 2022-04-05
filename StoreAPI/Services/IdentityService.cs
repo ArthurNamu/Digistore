@@ -30,9 +30,6 @@ namespace StoreAPI.Services
         public async Task<AuthenticationResult> CreateAsync(string UserName, string Password)
         {
 
-            //TODO:
-            /*UserExists was closing the connection throwing an error during create user*/
-
             var userExists = await _authenticationService.UserExistsAsync(UserName);
             if (userExists)
             {

@@ -12,15 +12,21 @@ namespace StoreAPI.Contracts.V1
         public const string Base  = "/"+ Root +"/"+ Version;
         public static class Identity
         {
-            public const string GetAll = Base + "/users/";
+            public const string GetAll = Base + "/user/";
             public const string Login = Base + "/user/login";
             public const string Register = Base + "/user/register";
          }
         public static class Product
         {
-            public const string GetAll = Base + "/products/";
+            public const string GetAll = Base + "/product/";
             public const string Get = Base + "/product/{ProductID}";
             public const string Create = Base + "/Product";
+        }
+        public static class Order
+        {
+            public const string GetAll = Base + "/order/";
+            public const string Get = Base + "/order/{orderID}";
+            public const string Create = Base + "/order";
         }
     }
 }

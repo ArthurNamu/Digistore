@@ -19,6 +19,7 @@ namespace StoreAPI.Controllers
         {
             _orderService = orderService;
         }
+        [HttpPost(ApiRoutes.Order.Create)]
         public async Task<IActionResult> CreateAsync([FromBody] List<CartItem> request)
         {
             if (ModelState.IsValid == false)
@@ -28,12 +29,14 @@ namespace StoreAPI.Controllers
                     Errors = ModelState.Values.SelectMany(err => err.Errors.Select(errors => errors.ErrorMessage))
                 });
             }
-            decimal totalValue = request.
-            var createdID = await _orderService.CreateOrderAsync(request.ProductID,request.UserName,request.ItemTotal,request.Quantity,request.ItemTotal,request.ProductPrice );
+            var order = request.FirstOrDefault();
+            var orderTotal = request.Sum(req => req.ItemTotal);
+            var orderID = await _orderService.CreateOrderAsync(order.UserName,orderTotal);
+            foreach(var req in request)
+            orderID = await _orderService.CreateOrderListingAsync(orderID,req.ProductID,req.Quantity, req.ItemTotal, req.ProductPrice );
             var baseUrl = $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host.ToUriComponent()}";
-            var locationUrl = baseUrl + "/" + ApiRoutes.Product.Get.ToString().Replace("{postId}", createdID.ToString());
-            request.ProductID = createdID;
-            return Created(locationUrl, request);
+            var locationUrl = baseUrl + "/" + ApiRoutes.Order.Get.ToString().Replace("{orderId}", orderID.ToString());
+            return Created(locationUrl, orderID);
         }
 
     }

@@ -51,7 +51,7 @@ namespace StoreAPI.Controllers
         [HttpGet(ApiRoutes.Product.GetAll)]
         public async Task<IActionResult> GetAll()
         {
-            Task.Delay(5000);
+            
             return Ok(await _productService.GetAllProductsAsync());
         }
     }

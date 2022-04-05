@@ -1,10 +1,12 @@
 ﻿using Blazored.LocalStorage;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
+using StoreUI.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Mail;
 using System.Threading.Tasks;
 
 namespace StoreUI.Data
@@ -16,9 +18,15 @@ namespace StoreUI.Data
     {
         private readonly ILocalStorageService _localStorageService;
         public HttpClient _httpClient { get; }
-        public DigiShopService(HttpClient httpClient, ILocalStorageService localStorageService)
+        private readonly EmailConfigs _emailSettings;
+        private readonly EndPointsConfig _endpoint;
+        public DigiShopService(HttpClient httpClient, ILocalStorageService localStorageService
+            , IOptions<EmailConfigs> emailSettings, IOptions<EndPointsConfig> endpoint)
         {
+            _endpoint = endpoint.Value;
+            _emailSettings = emailSettings.Value;
             _localStorageService = localStorageService;
+            httpClient.BaseAddress = new Uri(_endpoint.StoreBaseAddress);
             httpClient.DefaultRequestHeaders.Add("User-Agent", "BlazorServer");
             _httpClient = httpClient;
         }
@@ -26,9 +34,9 @@ namespace StoreUI.Data
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
-            var token = await _localStorageService.GetItemAsync<string>("accessToken");
-            requestMessage.Headers.Authorization
-                = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+           // var token = await _localStorageService.GetItemAsync<string>("accessToken");
+            //requestMessage.Headers.Authorization
+            //    = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var response = await _httpClient.SendAsync(requestMessage);
 
@@ -81,6 +89,25 @@ namespace StoreUI.Data
             var returnedObj = JsonConvert.DeserializeObject<T>(responseBody);
 
             return await Task.FromResult(returnedObj);
+        }
+
+        public  async Task<bool> EmailOrderAsync(string emailBody)
+        {
+            var mailMessage = new MailMessage(_emailSettings.EmailFrom, _emailSettings.EmailTo);
+            mailMessage.Subject = "Order";
+            mailMessage.Body = emailBody;
+            var smtpClient = new SmtpClient(_emailSettings.SmtpClient, _emailSettings.SmtpPort);
+            smtpClient.Credentials = new System.Net.NetworkCredential()
+            {
+                UserName = _emailSettings.EmailUserName,
+                Password = _emailSettings.EmailPassword
+            };
+            smtpClient.DeliveryMethod = SmtpDeliveryMethod.Network;
+            smtpClient.UseDefaultCredentials = false;
+            smtpClient.EnableSsl = true;
+            smtpClient.Send(mailMessage);
+            return await Task.FromResult(true);
+
         }
     }
 }

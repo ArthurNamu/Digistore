@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Logger;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using StoreAPI.Contracts.V1;
 using StoreAPI.Contracts.V1.Requests;
 using StoreAPI.Contracts.V1.Response;
 using StoreAPI.Services;
+using StoreAPI.Utility;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,7 +18,7 @@ namespace StoreAPI.Controllers
     public class IdentityController : ControllerBase
     {
         private readonly IIdentityService _identiryService;
-
+        private ILog _log;
         public IdentityController(IIdentityService identiryService)
         {
             _identiryService = identiryService;
@@ -68,6 +70,7 @@ namespace StoreAPI.Controllers
                 Token = authResponse.Token
             });
         }
+
     }
 
     }

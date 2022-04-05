@@ -15,7 +15,7 @@ namespace DataLibrary.DB
         string AuthConnection { get; set; }
         string EncryptedConnection();
     }
-    public class ConnectionStringData
+    public static class ConnectionStringData
     {
         public static string ActiveConnection { get; set; } = "SQLDB";
         public static string TestConnection { get; set; }

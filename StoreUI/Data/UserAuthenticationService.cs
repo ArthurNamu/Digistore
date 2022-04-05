@@ -3,6 +3,7 @@ using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StoreUI.Contracts;
 using StoreUI.Domain;
+using StoreUI.Options;
 using StoreUI.UtilEvents;
 using System;
 using System.Collections.Generic;
@@ -20,11 +21,12 @@ namespace StoreUI.Data
         Work on a better salt creation
         */
         public HttpClient _httpClient { get; }
-
-        public UserAuthenticationService(HttpClient httpClient)
+        private readonly EndPointsConfig _endpoint;
+        public UserAuthenticationService(HttpClient httpClient, IOptions<EndPointsConfig> endpoints)
         {
             httpClient.DefaultRequestHeaders.Add("User-Agent", "BlazorServer");
-
+            _endpoint = endpoints.Value;
+            httpClient.BaseAddress = new Uri(_endpoint.StoreBaseAddress);
             _httpClient = httpClient;
         }
         public async Task<UserAuthResponse> LoginAsync(UserModel user)

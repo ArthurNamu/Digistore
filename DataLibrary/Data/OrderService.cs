@@ -14,8 +14,7 @@ namespace DataLibrary.Data
             _dataAccess = dataAccess;
         }
 
-        public async Task<string> CreateOrderAsync(
-            string ProductID, string Customer, string TotalValue, int Quantity, decimal TotalItemPrice, decimal ProductPrice)
+        public async Task<string> CreateOrderAsync(string Customer, decimal TotalValue)
         {
             var OrderID = await _dataAccess.GetSingleValueAsync<string, dynamic>("sp_CreateOrder",
                                                                                    new
@@ -23,8 +22,10 @@ namespace DataLibrary.Data
                                                                                        @TotalValue,
                                                                                        @Customer
                                                                                    }, ConnectionStringData.ActiveConnection);
-            if (!string.IsNullOrEmpty(OrderID))
-            {
+            return OrderID;
+        }
+        public async Task<string> CreateOrderListingAsync(string OrderID, string ProductID, int Quantity, decimal TotalItemPrice, decimal ProductPrice)
+        {
                 OrderID = await _dataAccess.GetSingleValueAsync<string, dynamic>("sp_CreateOrderListing",
                                                                              new
                                                                              {
@@ -34,8 +35,8 @@ namespace DataLibrary.Data
                                                                                  @ProductPrice,
                                                                                  @TotalItemPrice
                                                                              }, ConnectionStringData.ActiveConnection);
-            }
             return OrderID;
         }
+
     }
 }

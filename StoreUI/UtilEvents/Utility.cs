@@ -1,7 +1,10 @@
-﻿using System;
+﻿using StoreUI.Options;
+using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.IO;
 using System.Linq;
+using System.Net.Mail;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,6 +13,7 @@ namespace StoreUI.UtilEvents
 {
     public static class Utility
     {
+        
         public static string EncryptText(string input, string password)
         {
             byte[] bytesToBeEncrypted = Encoding.UTF8.GetBytes(input);
@@ -53,5 +57,6 @@ namespace StoreUI.UtilEvents
 
             return encryptedBytes;
         }
+
     }
 }

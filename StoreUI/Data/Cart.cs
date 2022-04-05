@@ -37,5 +37,9 @@ namespace StoreUI.Data
             Items.Clear();
             Count = 0;
         }
+        public async Task<bool> EmailOrderAsync()
+        {
+            return await (Task.FromResult(true));
+        } 
     }
 }
