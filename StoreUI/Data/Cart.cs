@@ -8,16 +8,16 @@ namespace StoreUI.Data
 {
     public class Cart
     {
-        public List<CartItem> Items { get; set; }
+        public List<CartItemModel> Items { get; set; }
         public int Count = 0;
-        public void AddItems(CartItem item)
+        public void AddItems(CartItemModel item)
         {
             if (Items.Contains(item) == false)
             {
                 Items.Add(item);
             }
         }
-        public void RemoveItem(CartItem item)
+        public void RemoveItem(CartItemModel item)
         {
             if (Items.Contains(item))
             {
@@ -28,9 +28,9 @@ namespace StoreUI.Data
         {
 
         }
-        public async Task<List<CartItem>> RetrieveFromDB()
+        public async Task<List<CartItemModel>> RetrieveFromDB()
         {
-            return await Task.FromResult(new List<CartItem>());
+            return await Task.FromResult(new List<CartItemModel>());
         }
         public void ClearItems()
         {

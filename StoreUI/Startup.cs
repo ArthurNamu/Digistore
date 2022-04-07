@@ -41,6 +41,7 @@ namespace StoreUI
             services.AddHttpClient<IUserAuthenticationService, UserAuthenticationService>();
             services.AddHttpClient<IAppProductService, AppProductService>();
             services.AddHttpClient<IDigiShopService<ProductModel>, DigiShopService<ProductModel>>();
+            services.AddHttpClient<IDigiShopService<OrderModel>, DigiShopService<OrderModel>>();
             services.AddBlazoredLocalStorage();
         }
 

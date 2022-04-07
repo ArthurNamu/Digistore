@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace StoreUI.Domain
 {
-    public class CartItem : ProductModel
+    public class CartItemModel : ProductModel
     {
         public int Quantity { get; set; }
         public decimal ItemTotal { get; set; }

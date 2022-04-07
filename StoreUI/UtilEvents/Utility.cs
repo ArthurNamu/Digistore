@@ -13,7 +13,6 @@ namespace StoreUI.UtilEvents
 {
     public static class Utility
     {
-        
         public static string EncryptText(string input, string password)
         {
             byte[] bytesToBeEncrypted = Encoding.UTF8.GetBytes(input);

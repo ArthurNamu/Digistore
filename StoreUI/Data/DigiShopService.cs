@@ -34,9 +34,9 @@ namespace StoreUI.Data
         {
             var requestMessage = new HttpRequestMessage(HttpMethod.Get, requestUri);
 
-           // var token = await _localStorageService.GetItemAsync<string>("accessToken");
-            //requestMessage.Headers.Authorization
-            //    = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var token = await _localStorageService.GetItemAsync<string>("accessToken");
+            requestMessage.Headers.Authorization
+                = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var response = await _httpClient.SendAsync(requestMessage);
 
@@ -91,9 +91,42 @@ namespace StoreUI.Data
             return await Task.FromResult(returnedObj);
         }
 
-        public  async Task<bool> EmailOrderAsync(string emailBody)
+        public async Task<T> SaveListAsync(string requestUri, List<T> obj)
         {
-            var mailMessage = new MailMessage(_emailSettings.EmailFrom, _emailSettings.EmailTo);
+            if (obj is null)
+                throw new ArgumentNullException("Empty value can not be saved");
+            if (string.IsNullOrEmpty(requestUri))
+                throw new ArgumentNullException("The resource location is invalid");
+
+            string serializedUser = JsonConvert.SerializeObject(obj);
+
+            var requestMessage = new HttpRequestMessage(HttpMethod.Post, requestUri);
+
+            var token = await _localStorageService.GetItemAsync<string>("accessToken");
+            requestMessage.Headers.Authorization
+                = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+
+            requestMessage.Content = new StringContent(serializedUser);
+
+            requestMessage.Content.Headers.ContentType
+                = new System.Net.Http.Headers.MediaTypeHeaderValue("application/json");
+
+            var response = await _httpClient.SendAsync(requestMessage);
+
+            var responseStatusCode = response.StatusCode;
+            var responseBody = await response.Content.ReadAsStringAsync();
+
+            var returnedObj = JsonConvert.DeserializeObject<T>(responseBody);
+
+            return await Task.FromResult(returnedObj);
+        }
+
+        public  async Task<bool> EmailOrderAsync(string emailBody, string emailTo)
+        {
+            if (string.IsNullOrEmpty(emailBody))
+                throw new ArgumentNullException("Email can not be Empty");
+
+            var mailMessage = new MailMessage(_emailSettings.EmailFrom, _emailSettings.EmailFrom);
             mailMessage.Subject = "Order";
             mailMessage.Body = emailBody;
             var smtpClient = new SmtpClient(_emailSettings.SmtpClient, _emailSettings.SmtpPort);

@@ -35,8 +35,8 @@ namespace StoreAPI
         {
             services.AddControllers();
             services.AddSingleton<IDataAccess, SQLAccess>();
-             services.AddScoped<IAuthenticationService, AuthenticationService>();
-             services.AddScoped<IIdentityService, IdentityService>();
+            services.AddScoped<IAuthenticationService, AuthenticationService>();
+            services.AddScoped<IIdentityService, IdentityService>();
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<IOrderService, OrderService>();
 

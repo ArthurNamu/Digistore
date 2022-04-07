@@ -62,7 +62,7 @@ else
     ClaimsPrincipal user;
     private List<ProductModel> productList = new List<ProductModel>();
     private ProductModel product = null;
-    private CartItem cartItem = new CartItem();
+    private CartItemModel cartItem = new CartItemModel();
     private string totalCartItems;
 
     bool IsUserAuthenticated;
@@ -83,8 +83,8 @@ else
     private async Task AddToCart(string ProductID)
     {
         product = productList.Where(x => x.ProductID == ProductID).FirstOrDefault();
-        var cart = await _localStorage.GetItemAsync<List<CartItem>>("cart");
-        cartItem = new CartItem
+        var cart = await _localStorage.GetItemAsync<List<CartItemModel>>("cart");
+        cartItem = new CartItemModel
         {
             CategoryID = product.CategoryID,
             ImagePath = product.ImagePath,
@@ -98,7 +98,7 @@ else
         };
         if (cart is null)
         {
-            cart = new List<CartItem>();
+            cart = new List<CartItemModel>();
             cart.Add(cartItem);
         }
         else
