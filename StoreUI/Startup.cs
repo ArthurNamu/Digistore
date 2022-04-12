@@ -9,6 +9,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using StoreUI.Data;
 using StoreUI.Domain;
+using StoreUI.Handlers;
 using StoreUI.Options;
 using System;
 using System.Collections.Generic;
@@ -38,10 +39,14 @@ namespace StoreUI
             var address = Configuration.GetSection("EndPointsConfig");
             services.Configure<EndPointsConfig>(address);
             services.AddScoped<Cart>();
+            services.AddTransient<ValidateHeaderHandler>();
             services.AddHttpClient<IUserAuthenticationService, UserAuthenticationService>();
-            services.AddHttpClient<IAppProductService, AppProductService>();
-            services.AddHttpClient<IDigiShopService<ProductModel>, DigiShopService<ProductModel>>();
-            services.AddHttpClient<IDigiShopService<OrderModel>, DigiShopService<OrderModel>>();
+            services.AddHttpClient<IAppProductService, AppProductService>()
+                 .AddHttpMessageHandler<ValidateHeaderHandler>();
+            services.AddHttpClient<IDigiShopService<ProductModel>, DigiShopService<ProductModel>>()
+                .AddHttpMessageHandler<ValidateHeaderHandler>();
+            services.AddHttpClient<IDigiShopService<OrderModel>, DigiShopService<OrderModel>>()
+                 .AddHttpMessageHandler<ValidateHeaderHandler>();
             services.AddBlazoredLocalStorage();
         }
 

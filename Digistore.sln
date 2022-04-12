@@ -11,7 +11,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "StoreUI", "StoreUI\StoreUI.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logger", "Logger\Logger.csproj", "{97F676AA-5294-460E-A5E2-E9B251156160}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test_StoreAPI_IntegrationTest", "Test_StoreAPI_IntegrationTest\Test_StoreAPI_IntegrationTest.csproj", "{F5FE9217-1F21-407A-9381-D38B067AB9F3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Test_StoreAPI_IntegrationTest", "Test_StoreAPI_IntegrationTest\Test_StoreAPI_IntegrationTest.csproj", "{F5FE9217-1F21-407A-9381-D38B067AB9F3}"
+EndProject
+Project("{00D1A9C2-B5F0-4AF3-8072-F6C62B433612}") = "Database", "Database\Database.sqlproj", "{FA8001B3-0C79-4F72-AD7E-66DC972319E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,12 @@ Global
 		{F5FE9217-1F21-407A-9381-D38B067AB9F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F5FE9217-1F21-407A-9381-D38B067AB9F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F5FE9217-1F21-407A-9381-D38B067AB9F3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA8001B3-0C79-4F72-AD7E-66DC972319E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FA8001B3-0C79-4F72-AD7E-66DC972319E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FA8001B3-0C79-4F72-AD7E-66DC972319E1}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FA8001B3-0C79-4F72-AD7E-66DC972319E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FA8001B3-0C79-4F72-AD7E-66DC972319E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FA8001B3-0C79-4F72-AD7E-66DC972319E1}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

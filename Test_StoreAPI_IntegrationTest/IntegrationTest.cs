@@ -34,7 +34,6 @@ namespace Test_StoreAPI_IntegrationTest
 
         protected async Task AuthenticateAsync()
         {
-            
             _client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("bearer", await GetJwtAsync());
         }
         protected async Task<ProductModel> CreateProductAsync(ProductModel request)
@@ -54,7 +53,7 @@ namespace Test_StoreAPI_IntegrationTest
         {
             string serializedUser = JsonConvert.SerializeObject(new LoginRequest
             {
-                UserName = "an@nj.com",
+                UserName = "test@mail.com",
                 Password = "4kDYlBGZPdXSD9Tf4x/HQg=="
             });
 
@@ -64,7 +63,7 @@ namespace Test_StoreAPI_IntegrationTest
                 = new MediaTypeHeaderValue("application/json");
 
             var response = await _client.SendAsync(requestMessage);
-
+            var responsestring = await response.Content.ReadAsStringAsync();
             var registrationResponse = JsonConvert.DeserializeObject<AuthSuccessResponse>(await response.Content.ReadAsStringAsync());
             return registrationResponse.Token;
         }
