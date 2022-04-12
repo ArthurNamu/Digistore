@@ -10,6 +10,7 @@ A simple e-commerce site showcasing user signup and login, product listing, Add 
 -  Store user information in a database as well as the products purchased for each user
 against an order number.
 # Roadmap
+
 ##  User Authentication  
 1. Create 3 projects 
    -  Data library
@@ -42,7 +43,29 @@ against an order number.
 ##  Create Integration Test for the APIs
    -  Create product integration tests
    -  Ensure its authenticating the user.
-
+#  Setup
+##  Prerequisites
+   -  IDE - Visual Studio or VS Code
+   -  Framework - .NET Core 3.0 or Greater
+   -  Database - SQL Express/Server
+##  Clone
+   -  https://github.com/ArthurNamu/Digistore.git
+##  Setup
+   -  Open project Digistore/Digistore.sln
+-  *Database* 
+   -  Expand Database Project
+   -  Double click to run database.publish.xml file
+   -  This will create the database and load it with required test data
+-  *Web Api & Server Application*
+   -  Right click solution
+   -  Select Startup projects
+   -  Select Multiple startup projects
+   -  Ensure store API and StoreUI are set to start
+   -  Confirm StoreAPI as above StoreUI - To start the API first
+   -  Run Project through Visual Studio/Terminal
+   -  To Access API - https://localhost:5001/swagger/index.html
+   -  To Access UI - https://localhost:44352/
+   -  You can register and Continue using the Application
 # Trade-Offs
    -  *Data access* 
       -  Chose a custom data access library instead of Entity Framework
