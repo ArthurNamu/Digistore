@@ -61,6 +61,8 @@
     <Folder Include="dbo\Stored Procedures" />
     <Folder Include="Scripts" />
     <Folder Include="dbo\Scalar Functions" />
+    <Folder Include="PublishLocations" />
+    <Folder Include="dbo\Views" />
   </ItemGroup>
   <ItemGroup>
     <Build Include="dbo\Tables\t_Order.sql" />
@@ -76,11 +78,12 @@
     <Build Include="dbo\Stored Procedures\sp_UserExists.sql" />
     <Build Include="dbo\Scalar Functions\fn_IsValidUser.sql" />
     <Build Include="dbo\Scalar Functions\fn_UserNameExists.sql" />
+    <Build Include="dbo\Views\vw_CompleteOrder.sql" />
   </ItemGroup>
   <ItemGroup>
     <PostDeploy Include="Scripts\Script.PostDeployment.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Database.publish.xml" />
+    <None Include="PublishLocations\Database.publish.xml" />
   </ItemGroup>
 </Project>

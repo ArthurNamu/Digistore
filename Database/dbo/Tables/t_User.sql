@@ -1,10 +1,7 @@
-﻿CREATE TABLE [dbo].[t_User](
-		[UserID] [int] IDENTITY(1,1) NOT NULL,
-	[UserName] [nvarchar](100) NOT NULL,
-	[Password] [nvarchar](200) NOT NULL,
+﻿CREATE TABLE [dbo].[t_User] (
+    [UserID]   INT            IDENTITY (1, 1) NOT NULL,
+    [UserName] VARCHAR (200)  NULL,
+    [Password] NVARCHAR (200) NOT NULL,
+    PRIMARY KEY CLUSTERED ([UserID] ASC)
+);
 
-PRIMARY KEY CLUSTERED 
-(
-	[UserID] ASC
-)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON) ON [PRIMARY]
-) ON [PRIMARY]

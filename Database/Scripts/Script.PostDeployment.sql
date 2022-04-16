@@ -9,6 +9,12 @@ Post-Deployment Script Template
                SELECT * FROM [$(TableName)]					
 --------------------------------------------------------------------------------------
 */
+   IF NOT EXISTS(SELECT * FROM t_User)
+   BEGIN
+    INSERT INTO t_User 
+    (UserName, Password) Values ( 'test@mail.com' , '4kDYlBGZPdXSD9Tf4x/HQg==')
+   END
+
    IF NOT EXISTS(SELECT * FROM t_Product)
    BEGIN
     INSERT INTO t_Product 
@@ -21,8 +27,4 @@ Post-Deployment Script Template
     ('Dinnerset','40 Pc Pocelein Dinnerset','images/kitchenware-5.jpg','1',14000.00);
    END
 
-   IF NOT EXISTS(SELECT * FROM t_User)
-   BEGIN
-    INSERT INTO t_User 
-    (UserName, Password) Values ( 'test@mail.com' , '4kDYlBGZPdXSD9Tf4x/HQg==')
-   END
+
