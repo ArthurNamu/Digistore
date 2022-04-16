@@ -6,7 +6,7 @@
     [ProductPrice]   DECIMAL (18, 2) NOT NULL,
     [TotalItemPrice] DECIMAL (18, 2) NULL,
     PRIMARY KEY CLUSTERED ([OrderListID] ASC),
-    CONSTRAINT [FK_t_OrderList_t_Order] FOREIGN KEY ([OrderListID]) REFERENCES [dbo].[t_Order] ([OrderID]),
+    CONSTRAINT [FK_t_OrderList_t_Order] FOREIGN KEY ([OrderID]) REFERENCES [dbo].[t_Order] ([OrderID]),
     CONSTRAINT [FK_t_OrderList_t_Product] FOREIGN KEY ([ProductID]) REFERENCES [dbo].[t_Product] ([ProductID])
 );
 
