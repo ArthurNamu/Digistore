@@ -1,12 +1,16 @@
 ﻿using Blazored.LocalStorage;
+using FluentEmail.Core;
+using FluentEmail.Smtp;
 using Microsoft.Extensions.Options;
 using Newtonsoft.Json;
 using StoreUI.Options;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
 using System.Net.Mail;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace StoreUI.Data
@@ -125,6 +129,44 @@ namespace StoreUI.Data
         {
             if (string.IsNullOrEmpty(emailBody))
                 throw new ArgumentNullException("Email can not be Empty");
+            if (string.IsNullOrEmpty(emailTo))
+                throw new ArgumentException("Customer email is blank");
+
+            var sender = new SmtpSender(() => new SmtpClient(_emailSettings.SmtpClient, _emailSettings.SmtpPort)
+            {
+                EnableSsl = true,
+                DeliveryMethod = SmtpDeliveryMethod.Network,
+            Timeout = 10000,
+            UseDefaultCredentials = false,
+            Credentials = new NetworkCredential(_emailSettings.EmailUserName,_emailSettings.EmailPassword)
+        });
+
+            Email.DefaultSender = sender;
+            var email = await Email
+                .From(_emailSettings.EmailFrom)
+                .To(emailTo)
+                .Subject("Thanks!")
+                .Body(emailBody,true)
+                .SendAsync();
+            return true;
+            #region Other Email Implementations
+            /* string senderEmail = _emailSettings.EmailFrom;
+            string senderPassword = _emailSettings.EmailPassword;
+
+            SmtpClient client = new SmtpClient( Q   );
+            client.EnableSsl = true;
+            client.Timeout = 10000;
+            client.DeliveryMethod = SmtpDeliveryMethod.Network;
+            client.UseDefaultCredentials = false;
+            client.Credentials = new NetworkCredential(senderEmail, senderPassword);
+
+            MailMessage mailMessage = new MailMessage(senderEmail, _emailSettings.EmailTo, "Hallo", emailBody);
+            mailMessage.IsBodyHtml = true;
+            mailMessage.BodyEncoding = Encoding.UTF8;
+            client.Send(mailMessage);
+            return await Task.FromResult(true);
+            //************************************************************
+
 
             var mailMessage = new MailMessage(_emailSettings.EmailFrom, _emailSettings.EmailFrom);
             mailMessage.Subject = "Order";
@@ -140,7 +182,9 @@ namespace StoreUI.Data
             smtpClient.EnableSsl = true;
             smtpClient.Send(mailMessage);
             return await Task.FromResult(true);
-
+           */
+            #endregion 
         }
+
     }
 }

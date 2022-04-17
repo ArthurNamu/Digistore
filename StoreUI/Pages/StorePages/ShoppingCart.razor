@@ -49,6 +49,7 @@
             <td colspan="5">
                 <input type="submit" value="Save & Checkout" name="Save" class="btn btn-primary" id="SaveOrder" @onclick="SaveOrder" />
                 <input type="button" value="Clear Cart" name="clear" class="btn btn-outline-danger" id="ClearCart" @onclick="EmptyCart" />
+                <input type="button" value="Send Mail" name="clear" class="btn btn-outline-danger" @onclick="SendEmail" />
             </td>
 
         </tr>
@@ -90,9 +91,12 @@
     private async Task SaveOrder()
     {
         var newOrder = new OrderModel { CartItems = cartItemtList };
-        newOrder = await _orderService.SaveAsync(ApiEndPoints.Order.Create, newOrder);
+        // newOrder = await _orderService.SaveAsync(ApiEndPoints.Order.Create, newOrder);
+        newOrder.UserEmail = "test@mail.com";
         await _orderService.EmailOrderAsync(ConvertCartToHtmlOrder(newOrder), newOrder.UserEmail);
     }
+
+
 
     private string ConvertCartToHtmlOrder(OrderModel order)
     {
@@ -113,6 +117,12 @@
 
         return sb.ToString();
     }
+
+    private void SendEmail()
+    {
+        _orderService.SendEmail();
+    }
+
     private async Task EmptyCart()
     {
         cartItemtList.Clear();
